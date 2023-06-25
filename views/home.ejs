@@ -1,0 +1,34 @@
+<%- include("partials/header"); -%>
+
+  <h2>Welcome!</h2>
+  <p> Embrace the habit of daily journaling and unlock the endless possibilities it holds.<br> Start your journey with
+    Daily Journal today and witness the transformative power of<br> introspection and self-expression.<br><br>
+
+    Begin your daily ritual. Begin your transformation. Begin your Daily Journal journey now. </p>
+  <div class="row">
+    <div class="col-4">
+      <div id="list-example" class="list-group">
+        <% posts.forEach(function(post,i){ %>
+          <a class="list-group-item list-group-item-action" href="#list-item-<%=i+1%>">
+            <%=post.title%>
+          </a>
+          <% }) %>
+      </div>
+    </div>
+    <div class="col-8">
+      <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example"
+        tabindex="0">
+        <% posts.forEach(function(post,i){ %>
+          <h4 id="list-item-<%=i+1%>">
+            <%=post.title%>
+          </h4>
+          <p>
+            <%=post.content.substring(0, 100) + " ..." %><a href="/posts/<%=post._id%>">Read More</a>
+          </p>
+          <% }) %>
+
+      </div>
+    </div>
+  </div>
+
+  <%- include("partials/footer"); -%>

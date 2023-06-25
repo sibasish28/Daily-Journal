@@ -1,0 +1,19 @@
+<%- include("partials/header"); -%>
+
+    <main class="px-3">
+        <h1>Daily Journal</h1>
+        <p class="lead"> Welcome to Daily Journal! <br> Your personal sanctuary for
+            reflection, growth, and self-expression.<br>
+
+            Unlock the power of daily journaling and embark on a transformative journey<br>
+            of self-discovery. Our website
+            is designed to be your trusted companion, providing a nurturing<br> space where you can pour your thoughts,
+            dreams, and aspirations <br>onto the digital pages. <br>
+            </p>
+        <% if(!currentUser) {%>
+            <a href="/login" class="btn btn-lg btn-secondary font-weight-bold border-white bg-info">Log
+                in</a>
+            <% } %>
+    </main>
+
+    <%- include("partials/footer"); -%>
