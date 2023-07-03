@@ -162,7 +162,7 @@ app.get("/posts/:postId/edit", isLoggedIn, catchAsync(async function (req, res) 
   res.render("edit", { postID: post._id, content: post.content, title: post.title });
 }));
 
-app.put("/posts/:postId/edit", isLoggedIn, catchAsync(async function (req, res) {
+app.put("/posts/:postId", isLoggedIn, catchAsync(async function (req, res) {
   const post = await Post.findOne({ _id: req.params.postId, author: req.user._id });
   post.title = req.body.postTitle;
   post.content = req.body.postBody;
@@ -170,7 +170,7 @@ app.put("/posts/:postId/edit", isLoggedIn, catchAsync(async function (req, res) 
   res.redirect(`/posts/${req.params.postId}`);
 }));
 
-app.delete("/posts/:postId/delete", isLoggedIn, catchAsync(async function (req, res) {
+app.delete("/posts/:postId", isLoggedIn, catchAsync(async function (req, res) {
 
   const requestedPostId = req.params.postId;
 

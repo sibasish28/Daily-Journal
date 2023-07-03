@@ -1,6 +1,6 @@
 <%- include("partials/header"); -%>
     <h2>Edit</h2>
-    <form class="" action="/posts/<%=postID%>/edit?_method=PUT" method="post">
+    <form class="" action="/posts/<%=postID%>?_method=PUT" method="post">
       <div class="form-group">
         <label>Title</label>
         <input class="form-control" type="text" name="postTitle" value="<%=title%>"">
