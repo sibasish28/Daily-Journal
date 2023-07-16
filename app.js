@@ -11,6 +11,7 @@ const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
 require('dotenv').config();
 const dbUrl= process.env.DB_URL;
+const MongoDBStore = require("connect-mongo")(session);
 const app = express();
 
 
@@ -38,8 +39,21 @@ const postSchema = {
 
 const Post = mongoose.model("Post", postSchema);
 
+const secret=process.env.SECRET;
+
+const store = new MongoDBStore({
+  url: dbUrl,
+  secret,
+  touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e)
+})
 const sessionConfig = {
-  secret: 'thisshouldbeabettersecret!',
+  store,
+  name:"session",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -71,13 +85,13 @@ const isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl
     req.flash('error', 'You must be signed in first!');
-    return res.redirect('/login');
+    res.redirect('/login');
   }
   next();
 }
 
 app.get('/register', catchAsync((req, res) => {
-  res.render('register');
+   res.render('register');
 }));
 
 app.post('/register', catchAsync(async (req, res, next) => {
@@ -117,12 +131,12 @@ app.get('/logout', (req, res) => {
 })
 
 app.get("/", catchAsync(async function (req, res) {
-  return res.render("start");
+  res.render("start");
 }));
 
 app.get("/home", isLoggedIn, catchAsync(async function (req, res) {
   const author = await User.findById(req.user._id).populate('posts');
-  return res.render("home", {
+  res.render("home", {
     posts: author.posts
   });
 }));
@@ -168,7 +182,7 @@ app.put("/posts/:postId", isLoggedIn, catchAsync(async function (req, res) {
   const post = await Post.findOne({ _id: req.params.postId, author: req.user._id });
   post.title = req.body.postTitle;
   post.content = req.body.postBody;
-  await post.save();
+  post.save();
   res.redirect(`/posts/${req.params.postId}`);
 }));
 
@@ -177,7 +191,7 @@ app.delete("/posts/:postId", isLoggedIn, catchAsync(async function (req, res) {
   const requestedPostId = req.params.postId;
 
   const post = await Post.findOne({ _id: requestedPostId, author: req.user._id });
-  await Post.findByIdAndDelete(post._id);
+  Post.findByIdAndDelete(post._id);
   res.redirect('/');
 }));
 
@@ -190,7 +204,7 @@ app.get("/about", function (req, res) {
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-  res.status(statusCode).render('error', { err })
+  return res.status(statusCode).render('error', { err })
 })
 
 app.listen(3000, function () {

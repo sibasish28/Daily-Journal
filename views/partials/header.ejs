@@ -18,9 +18,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link" href="/home" style="font-weight: 600;">HOME</a>
-            <a class="nav-link" href="/about" style="font-weight: 600;">ABOUT US</a>
+            
+            
             <% if(currentUser) {%>
+              <a class="nav-link" href="/home" style="font-weight: 600;">HOME</a>
+            <% } %> 
+              <a class="nav-link" href="/about" style="font-weight: 600;">ABOUT US</a>
+              <% if(currentUser) {%>
               <a class="nav-link" href="/compose" style="font-weight: 600;">COMPOSE</a>
               <% } %>
 
