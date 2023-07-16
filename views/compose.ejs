@@ -1,12 +1,21 @@
 
 <%- include("partials/header"); -%>
     <h2>Compose</h2>
-    <form class="" action="/compose" method="post">
+    <form action="/compose" method="post" class="validated-form" novalidate>
       <div class="form-group">
+        <div>
         <label>Title</label>
-        <input class="form-control" type="text" name="postTitle">
+        <input class="form-control" type="text" name="postTitle" required>
+        <div class="valid-feedback">
+          Looks good!
+      </div>
+    </div>
+    <div>
         <label>Post</label>
-        <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+        <textarea class="form-control" name="postBody" rows="5" cols="30" required></textarea>
+        <div class="valid-feedback">
+          Looks good!
+      </div></div>
       </div>
       <div class="container-fluid"></div>
       <button class="btn btn-primary" type="submit" name="button">Publish</button>

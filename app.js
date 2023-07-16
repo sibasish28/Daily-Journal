@@ -9,15 +9,17 @@ const User = require('./models/user');
 const flash = require('connect-flash');
 const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
-
+require('dotenv').config();
+const dbUrl= process.env.DB_URL;
 const app = express();
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(methodOverride('_method'));
 
-mongoose.connect("mongodb://127.0.0.1:27017/blogDB");
+mongoose.connect(String(dbUrl));
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));

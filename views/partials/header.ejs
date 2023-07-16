@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: rgb(70, 53, 78);" >
       <div class="container-fluid">
         <a class="navbar-brand" href="/">DAILY JOURNAL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -18,16 +18,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link" href="/home">HOME</a>
-            <a class="nav-link" href="/about">ABOUT US</a>
+            <a class="nav-link" href="/home" style="font-weight: 600;">HOME</a>
+            <a class="nav-link" href="/about" style="font-weight: 600;">ABOUT US</a>
             <% if(currentUser) {%>
-              <a class="nav-link" href="/compose">COMPOSE</a>
+              <a class="nav-link" href="/compose" style="font-weight: 600;">COMPOSE</a>
               <% } %>
 
           </div>
-          <div class="navbar-nav ml-auto ">
+          <div class="navbar-nav ml-auto " style="font-weight: 600;">
             <% if(!currentUser) {%>
-              <a class="nav-link" href="/login">LOGIN</a>
+              <a class="nav-link" href="/login" >LOGIN</a>
               <a class="nav-link" href="/register">REGISTER</a>
               <% } else {%>
                 <a class="nav-link" href="/logout">LOGOUT</a>
@@ -38,6 +38,6 @@
     </nav>
   </head>
 
-  <body>
+  <body style="background-image:url('https://i.pinimg.com/originals/c9/62/09/c962093bc7e9b13212523077ea88c613.jpg');">
     <main class="container mt-5">
       <%- include('../flash')%>
