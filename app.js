@@ -40,10 +40,9 @@ const postSchema = {
 const Post = mongoose.model("Post", postSchema);
 
 const secret=process.env.SECRET;
-mongoose.Promise = global.Promise;
 
 const store = MongoDBStore.create({
-  client: mongoose.connection.getClient(),
+  mongoUrl: dbUrl,
   touchAfter: 24 * 60 * 60,
   crypto: {
     secret: secret
