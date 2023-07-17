@@ -207,6 +207,6 @@ app.use((err, req, res, next) => {
   return res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
   console.log("Server started on port 3000");
 });
