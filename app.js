@@ -53,9 +53,9 @@ store.on("error", function (e) {
   console.log("SESSION STORE ERROR", e)
 })
 const sessionConfig = {
-  store,
+  store:store,
   name:"session",
-  secret,
+  secret:secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
