@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
 require('dotenv').config();
 const dbUrl= process.env.DB_URL;
-const MongoDBStore = require("connect-mongo")(session);
+const MongoDBStore = require("connect-mongo");
 const app = express();
 
 
@@ -41,10 +41,12 @@ const Post = mongoose.model("Post", postSchema);
 
 const secret=process.env.SECRET;
 
-const store = new MongoDBStore({
-  url: dbUrl,
-  secret,
-  touchAfter: 24 * 60 * 60
+const store = MongoDBStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: secret
+}
 });
 
 store.on("error", function (e) {
@@ -207,6 +209,6 @@ app.use((err, req, res, next) => {
   return res.status(statusCode).render('error', { err })
 })
 
-app.listen(process.env.PORT, function () {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
