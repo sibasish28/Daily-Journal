@@ -39,6 +39,14 @@ const postSchema = {
 
 const Post = mongoose.model("Post", postSchema);
 
+class ExpressError extends Error {
+  constructor(message, statusCode) {
+      super();
+      this.message = message;
+      this.statusCode = statusCode;
+  }
+}
+
 const secret=process.env.SECRET;
 
 const store = MongoDBStore.create({
@@ -83,6 +91,12 @@ app.use((req, res, next) => {
   next();
 })
 
+const storeReturnTo = (req, res, next) => {
+  if (req.session.returnTo) {
+      res.locals.returnTo = req.session.returnTo;
+  }
+  next();
+}
 const isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl
@@ -112,14 +126,14 @@ app.post('/register', catchAsync(async (req, res, next) => {
   }
 }));
 
-app.get('/login', catchAsync((req, res) => {
+app.get('/login', (req, res) => {
   res.render('login');
-}));
+});
 
-app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+app.post('/login',storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
   req.flash('success', `welcome back ${req.user.username}!`);
-  delete req.session.returnTo;
-  res.redirect('/home');
+  const redirectUrl = res.locals.returnTo || '/home';
+  res.redirect(redirectUrl);
 })
 
 app.get('/logout', (req, res) => {
@@ -201,6 +215,10 @@ app.delete("/posts/:postId", isLoggedIn, catchAsync(async function (req, res) {
 app.get("/about", function (req, res) {
   res.render("about");
 });
+
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page Not Found', 404))
+})
 
 
 app.use((err, req, res, next) => {
